@@ -10,11 +10,11 @@ class PermissionSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'administrateur',
+                'name' => 'Administrateur',
                 'slug' => 'administrateur',
             ],
             [
-                'name' => 'utilisateur',
+                'name' => 'Utilisateur',
                 'slug' => 'utilisateur',
             ],
         ];

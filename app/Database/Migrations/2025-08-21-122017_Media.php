@@ -14,6 +14,14 @@ class Media extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
+            'title' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+            ],
+            'alt' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+            ],
             'file_path' => [
                 'type' => 'TEXT',
                 'null' => false,
@@ -27,6 +35,16 @@ class Media extends Migration
                 'type' => 'ENUM',
                 'constraint' => ['user', 'recipe', 'step', 'ingredient', 'brand'],
                 'default' => 'user',
+            ],
+            'title' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'null' => true,
+            ],
+            'alt' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'null' => true,
             ],
             'created_at' => [
                 'type'       => 'DATETIME',
