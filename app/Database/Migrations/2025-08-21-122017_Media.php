@@ -14,14 +14,6 @@ class Media extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'title' => [
-                'type' => 'VARCHAR',
-                'constraint' => '255',
-            ],
-            'alt' => [
-                'type' => 'VARCHAR',
-                'constraint' => '255',
-            ],
             'file_path' => [
                 'type' => 'TEXT',
                 'null' => false,
