@@ -20,18 +20,17 @@ class AuthFilter implements FilterInterface
             // Logger la tentative d'accès non autorisée
             log_message('info', 'Unauthorized access attempt to: ' . uri_string());
 
-            // Nettoyer la session au cas où
-            $session->destroy();
+            // Flash message
+            $session->setFlashdata('error', 'Vous devez être connecté pour accéder à cette page.');
 
-            // Rediriger vers la page de connexion avec un message
-            return redirect()->to('/sign-in')->with('error', 'Vous devez être connecté pour accéder à cette page.');
+            // Redirection
+            return redirect()->to('/sign-in');
         }
 
         // Vérifier si l'utilisateur est toujours actif
         if (!$user->isActive()) {
             log_message('warning', "Inactive user {$user->id} tried to access: " . uri_string());
-            $session->destroy();
-            return redirect()->to('/sign-in')->with('error', 'Votre compte a été désactivé.');
+            $session->setFlashdata('error', 'Votre compte a été désactivé.');
         }
 
         // Vérifier la validité de la session (optionnel - sécurité renforcée)
@@ -40,8 +39,8 @@ class AuthFilter implements FilterInterface
 
         if ($lastActivity && (time() - $lastActivity) > $sessionTimeout) {
             log_message('info', "Session expired for user {$user->id}");
-            $session->destroy();
-            return redirect()->to('/sign-in')->with('error', 'Votre session a expiré. Veuillez vous reconnecter.');
+            $session->setFlashdata('error', 'Votre session a expiré. Veuillez vous reconnecter.');
+            return redirect()->to('/sign-in');
         }
 
         // Mettre à jour l'activité de la session
@@ -62,8 +61,10 @@ class AuthFilter implements FilterInterface
                 // Logger la tentative d'accès avec des permissions insuffisantes
                 log_message('warning', "User {$user->id} with insufficient permissions tried to access: " . uri_string() . " (required: " . implode(', ', $arguments) . ")");
 
+                $session->setFlashdata('error', 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.');
+
                 // Rediriger vers une page d'erreur 403
-                return redirect()->to('/forbidden')->with('error', 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.');
+                return redirect()->to('/forbidden');
             }
         }
 

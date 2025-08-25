@@ -1,5 +1,6 @@
 <?php
 $routes->get('/', 'Home::index');
+$routes->get('/forbidden','Site::forbidden');
 
 $routes->get('/sign-in', 'Auth::signIn');
 $routes->post('/auth/login', 'Auth::login');
