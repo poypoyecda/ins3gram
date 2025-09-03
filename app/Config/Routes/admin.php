@@ -18,4 +18,11 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
        $routes->post('insert', 'UserPermission::insert');
        $routes->post('delete', 'UserPermission::delete');
     });
+
+    $routes->group('brand', function ($routes) {
+        $routes->get('/', 'Brand::index');
+        $routes->post('update', 'Brand::update');
+        $routes->post('insert', 'Brand::insert');
+        $routes->post('delete', 'Brand::delete');
+    });
 });
