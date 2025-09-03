@@ -5,6 +5,17 @@
     "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
     "class": "main-menu-accueil"
   },
+  "user-permission": {
+    "title": "Ingrédients",
+    "icon": "<i class=\"nav-icon fas fa-clipboard-list\"></i>",
+    "subs": {
+      "brand": {
+        "title": "Marque",
+        "url": "/admin/brand",
+        "icon": "<i class=\"nav-icon fas fa-font-awesome\"></i>"
+      }
+    }
+  },
   "administration": {
     "title": "Administration",
     "url": "/",
