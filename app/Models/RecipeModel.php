@@ -41,5 +41,5 @@ class RecipeModel extends Model
             'integer' => 'L’ID de l’utilisateur doit être un nombre.',
         ],
     ];
-
+    functionvalidate
 }

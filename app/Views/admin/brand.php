@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <?= form_open('admin/Brand/insert') ?>
+            <?= form_open('admin/brand/insert') ?>
             <div class="card-header h4">
-                Ajouter une nouvelle marque
+                Nouvelle marque
             </div>
             <div class="card-body">
                 <div class="form-floating">
@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="card-footer text-end">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Créer la marque</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter la marque</button>
             </div>
             <?= form_close() ?>
         </div>
@@ -23,7 +23,7 @@
                 Liste des marques
             </div>
             <div class="card-body">
-                <table id="BrandTable" class="table table-sm table-hover">
+                <table id="brandsTable" class="table table-sm table-hover">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -37,6 +37,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal édition -->
 <div class="modal" id="modalBrand" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -57,10 +59,11 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
-        var table = $('#BrandsTable').DataTable({
+        var table = $('#brandsTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
@@ -73,7 +76,6 @@
             columns: [
                 { data: 'id' },
                 { data: 'name' },
-                { data: 'slug' },
                 {
                     data: null,
                     orderable: false,
@@ -104,7 +106,7 @@
         };
     });
 
-    const myModal = new bootstrap.Modal('#modalPerm');
+    const myModal = new bootstrap.Modal('#modalBrand');
 
     function showModal(id, name) {
         $('#modalNameInput').val(name);
@@ -132,7 +134,6 @@
                         timer: 2000,
                         showConfirmButton: false
                     });
-                    // Actualiser la table
                     refreshTable();
                 } else {
                     console.log(response.message)
@@ -149,7 +150,7 @@
     function deleteBrand(id){
         Swal.fire({
             title: `Êtes-vous sûr ?`,
-            text: `Voulez-vous vraiment supprimer cette brand ?`,
+            text: `Voulez-vous vraiment supprimer cette marque ?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#28a745",
@@ -173,7 +174,6 @@
                                 timer: 2000,
                                 showConfirmButton: false
                             });
-                            // Actualiser la table
                             refreshTable();
                         } else {
                             console.log(response.message)

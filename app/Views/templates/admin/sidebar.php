@@ -42,6 +42,6 @@
         </li>
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">
-        <small>Version :</small>
+        <small>Version : bêta</small>
     </div>
 </div>
