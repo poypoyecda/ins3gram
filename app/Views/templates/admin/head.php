@@ -37,8 +37,8 @@
     <link href="<?= base_url('/css/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
 
     <!-- Javascript -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="<?= base_url('/js/jquery-3.7.1.min.js') ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="<?= base_url('/js/config.js') ?>"></script>
     <script src="<?= base_url('/vendors/@coreui/coreui/js/coreui.bundle.min.js') ?>"></script>
     <script src="<?= base_url('/vendors/simplebar/js/simplebar.min.js') ?>"></script>
