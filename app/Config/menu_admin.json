@@ -5,6 +5,18 @@
     "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
     "class": "main-menu-accueil"
   },
+  "recipe": {
+    "title": "Recettes",
+    "url" : "/admin/recipe",
+    "icon" : "<i class=\"nav-icon fas fa-martini-glass-citrus\"></i>",
+    "class" : ""
+  },
+  "brand": {
+    "title": "marques",
+    "url": "/admin/brand",
+    "icon": "<i class=\"nav-icon fa-solid fa-bookmark\"></i>",
+    "class": ""
+  },
   "administration": {
     "title": "Administration",
     "url": "/",
@@ -19,7 +31,7 @@
       },
       "user-permission": {
         "title": "Rôle",
-        "url": "/admin/userpermission",
+        "url": "/admin/user-permission",
         "icon": "<i class=\"nav-icon fas fa-user-gear\"></i>"
       }
     }
