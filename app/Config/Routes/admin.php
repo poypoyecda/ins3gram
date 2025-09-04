@@ -19,6 +19,14 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
        $routes->post('delete', 'UserPermission::delete');
     });
 
+    $routes->group('recipe', function ($routes) {
+       $routes->get('/', 'Recipe::index');
+       $routes->get('(:num)', 'Recipe::edit/$1');
+       $routes->get('new', 'Recipe::create');
+       $routes->post('insert', 'Recipe::insert');
+       $routes->post('update', 'Recipe::update');
+    });
+
     $routes->group('brand', function ($routes) {
         $routes->get('/', 'Brand::index');
         $routes->post('update', 'Brand::update');
