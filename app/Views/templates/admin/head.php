@@ -37,8 +37,8 @@
     <link href="<?= base_url('/css/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
 
     <!-- Javascript -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="<?= base_url('/js/jquery-3.7.1.min.js') ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="<?= base_url('/js/config.js') ?>"></script>
     <script src="<?= base_url('/vendors/@coreui/coreui/js/coreui.bundle.min.js') ?>"></script>
     <script src="<?= base_url('/vendors/simplebar/js/simplebar.min.js') ?>"></script>
@@ -81,9 +81,6 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-
-    <!-- FULLCALENDAR -->
-    <script src="<?= base_url('/js/fullcalendar.global.min.js') ?>"></script>
 
 </head>
 <script>
