@@ -33,4 +33,15 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('insert', 'Brand::insert');
         $routes->post('delete', 'Brand::delete');
     });
+
+    $routes->group('ingredient', function ($routes) {
+        $routes->get('search', 'Ingredient::search');
+    });
+
+    $routes->group('category-ingredient', function ($routes) {
+       $routes->get('/', 'CategIng::index');
+        $routes->post('update', 'CategIng::update');
+        $routes->post('insert', 'CategIng::insert');
+        $routes->post('delete', 'CategIng::delete');
+    });
 });
