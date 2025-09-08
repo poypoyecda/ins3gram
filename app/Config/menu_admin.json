@@ -5,12 +5,23 @@
     "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
     "class": "main-menu-accueil"
   },
-  "user-permission": {
+  "recipe": {
+    "title": "Recettes",
+    "url" : "/admin/recipe",
+    "icon" : "<i class=\"nav-icon fas fa-martini-glass-citrus\"></i>",
+    "class" : ""
+  },
+  "ingredient": {
     "title": "Ingrédients",
     "icon": "<i class=\"nav-icon fas fa-clipboard-list\"></i>",
     "subs": {
+      "category": {
+        "title": "Catégories",
+        "url": "/admin/category-ingredient",
+        "icon": "<i class=\"nav-icon fas fa-tag\"></i>"
+      },
       "brand": {
-        "title": "Marque",
+        "title": "Marques",
         "url": "/admin/brand",
         "icon": "<i class=\"nav-icon fas fa-font-awesome\"></i>"
       }

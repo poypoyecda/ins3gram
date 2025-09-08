@@ -5,7 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Ingredient extends BaseController
+class Unit extends BaseController
 {
     public function search()
     {
@@ -16,7 +16,7 @@ class Ingredient extends BaseController
             return $this->response->setJSON(['error' => 'Requête non autorisée']);
         }
 
-        $im = Model('IngredientModel');
+        $um = Model('UnitModel');
 
         // Paramètres de recherche
         $search = $request->getGet('search') ?? '';
@@ -24,7 +24,7 @@ class Ingredient extends BaseController
         $limit = 20;
 
         // Utilisation de la méthode du Model (via le trait)
-        $result = $im->quickSearchForSelect2($search, $page, $limit);
+        $result = $um->quickSearchForSelect2($search, $page, $limit);
 
         // Réponse JSON
         return $this->response->setJSON($result);
