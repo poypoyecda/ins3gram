@@ -29,4 +29,51 @@ class Ingredient extends BaseController
         // Réponse JSON
         return $this->response->setJSON($result);
     }
+    public function insert()
+    {
+        $upm = model('IngredientModel');
+        $data = $this->request->getPost();
+        if ($upm->insert($data)) {
+            $this->success('Marque bien créée');
+        } else {
+            foreach ($upm->errors() as $error) {
+                $this->error($error);
+            }
+        }
+        return $this->redirect('admin/ingredient');
+    }
+
+    public function update() {
+        $upm = model('IngredientModel');
+        $data = $this->request->getPost();
+        $id = $data['id'];
+        unset($data['id']);
+        if ($upm->update($id, $data)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => "La marque à été modifiée avec succés !",
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => $upm->errors(),
+            ]);
+        }
+    }
+
+    public function delete() {
+        $upm = model('IngredientModel');
+        $id = $this->request->getPost('id');
+        if ($upm->delete($id)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => "La marque à été supprimée avec succés !",
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => $upm->errors(),
+            ]);
+        }
+    }
 }
