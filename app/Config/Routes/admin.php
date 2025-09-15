@@ -49,4 +49,11 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('insert', 'CategIng::insert');
         $routes->post('delete', 'CategIng::delete');
     });
+
+    $routes->group('tag', function ($routes) {
+        $routes->get('/', 'Tag::index');
+        $routes->post('update', 'Tag::update');
+        $routes->post('insert', 'Tag::insert');
+        $routes->post('delete', 'Tag::delete');
+    });
 });
