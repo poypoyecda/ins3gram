@@ -214,7 +214,9 @@ endif;
                     <select class="form-select" id="id_user" name="id_user">
                         <option value="<?= $id ?>" selected><?= $username ?></option>
                     </select>
-                </div>
+                        </div>
+                            <div class="img-box"> <img src="public/asset/favicon/apple-tuch-icon.png" alt="image de logo">
+                        </div>
             </div>
         </div>
     </div>

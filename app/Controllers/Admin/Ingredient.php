@@ -36,4 +36,11 @@ class Ingredient extends BaseController
         // Réponse JSON
         return $this->response->setJSON($result);
     }
+    public function create() {
+        helper('form');
+        $this->addBreadcrumb('Ingredient', "/admin/ingredient");
+        $this->addBreadcrumb('Création d\'un ingrédient', "");
+        $tags = Model('IngredientModel')->findAll();
+        return $this->view('admin/ingredient/form');
+    }
 }
