@@ -7,6 +7,13 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Ingredient extends BaseController
 {
+
+    protected $breadcrumb = [['text' => 'Tableau de Bord','url' => '/admin/dashboard']];
+    public function index()
+    {
+        $this->addBreadcrumb('Ingredient', "");
+        return $this->view('admin/ingredient/index');
+    }
     public function search()
     {
         $request = $this->request;
