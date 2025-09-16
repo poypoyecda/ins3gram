@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use App\Traits\Select2Searchable;
 use CodeIgniter\Model;
 
 class UnitModel extends Model
 {
+    use DataTableTrait;
     use Select2Searchable;
     protected $table            = 'unit';
     protected $primaryKey       = 'id';
@@ -30,4 +32,16 @@ class UnitModel extends Model
     // Configuration pour Select2Searchable
     protected $select2SearchFields = ['name'];
     protected $select2DisplayField = 'name';
+
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => [
+                'name',
+                'id',
+            ],
+            'joins' => [],
+            'select' => '*',
+        ];
+    }
 }
