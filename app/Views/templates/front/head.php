@@ -57,9 +57,15 @@
     <!-- SWEETALERT 2  -->
     <link href="<?= base_url('/css/sweetalert2.min.css') ?>" rel="stylesheet">
     <script src="<?= base_url('/js/sweetalert2.all.min.js') ?>"></script>
+
+    <!-- SELECT 2 -->
+    <link href="<?=base_url('/css/select2.min.css'); ?>" rel="stylesheet">
+    <link href="<?=base_url('/css/select2-bootstrap-5-theme.min.css'); ?>" rel="stylesheet">
+    <script src="<?= base_url('/js/select2.min.js') ?>"></script>
 </head>
 <body>
 
 <?php if (isset($menus)) {
     echo view($template_path . 'header',['menus' => $menus]);  }  ?>
 <div class="container">
+

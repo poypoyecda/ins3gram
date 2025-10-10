@@ -16,4 +16,12 @@ class Site extends BaseController
     {
         return $this->view('templates/404', [], false);
     }
+
+    public function testPagination() {
+        $recipeModel = Model('RecipeModel');
+        // Test basique
+
+        var_dump($recipeModel->getAllRecipes()); // Génère les liens HTML
+    }
+
 }
