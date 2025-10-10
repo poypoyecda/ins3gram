@@ -2,33 +2,34 @@
     <div class="col">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3>Liste des ingrédients</h3>
+                <h3>Liste des recettes</h3>
                 <a href="<?= base_url("admin/ingredient/new") ?>" class="btn btn-sm btn-primary">
-                    <i class="fas fa-plus"></i> Nouvelle Ingrédient
+                    <i class="fas fa-plus"></i> Nouveau ingrédient
                 </a>
             </div>
             <div class="card-body">
-                <table class="table table-sm table-bordered table-striped" id="tableIngredients">
+                <table class="table table-sm table-bordered table-striped" id="tableIngredient">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nom</th>
-                        <th>Catégorie</th>
-                        <th>Marque</th>
+                        <th>Créateur</th>
+                        <th>Date modif.</th>
+                        <th>Statut</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
-        var table = $('#tableIngredients').DataTable({
+        var table = $('#tableIngredient').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
@@ -40,21 +41,54 @@
             },
             columns: [
                 { data: 'id' },
-                { data: 'name' },
-                { data: 'categname'},
-                { data: 'brandname'},
+                {
+                    data: 'name',
+                    render : function(data, type, row) {
+                        return `<a class="link-underline link-underline-opacity-0"
+                                    href="<?= base_url('admin/ingredient/') ?>${row.id}">
+                                    ${data}
+                                </a>`;
+                    }
+                },
+                { data: 'creator' },
+                {
+                    data: 'updated_at',
+                    render : function(data) {
+                        let date = new Date(data);
+                        return date.toLocaleDateString("fr") + " " + date.toLocaleTimeString("fr");
+                    }
+                },
+                {
+                    data: 'deleted_at',
+                    render: function(data, type, row) {
+                        const isActive = (data === 'active' || row.deleted_at === null);
+                        return `
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox"
+                                    id="switch-${row.id}"
+                                    ${isActive ? 'checked' : ''}
+                                    onchange="toggleIngredientStatus(${row.id}, this.checked ? 'activate' : 'deactivate')">
+                                <label class="form-check-label" for="switch-${row.id}">
+                                    ${isActive ? 'Active' : 'Inactive'}
+                                </label>
+                            </div>
+                        `;
+                    }
+                },
                 {
                     data: null,
                     orderable: false,
                     render: function(data, type, row) {
                         return `
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('admin/ingredient/') ?>${row.id}") class="btn btn-sm btn-warning text-white" title="Modifier">
+                                <a href="<?= base_url('/admin/ingredient/') ?>${row.id}"
+                                   class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button onclick="deleteIngredient(${row.id})" class="btn btn-sm btn-danger text-white" title="Supprimer">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <a href="<?= base_url('/recette/') ?>${row.slug}"
+                                    class="btn btn-sm btn-primary" target="_blank" title="Voir la recette">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                             </div>
                         `;
                     }
@@ -69,7 +103,59 @@
 
         // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
+
+    function toggleIngredientStatus(id, action) {
+        const actionText = action === 'activate' ? 'activer' : 'désactiver';
+        const actionColor = action === 'activate' ? '#28a745' : '#dc3545';
+
+        Swal.fire({
+            title: `Êtes-vous sûr ?`,
+            text: `Voulez-vous vraiment ${actionText} cette recette ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: actionColor,
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: `Oui, ${actionText} !`,
+            cancelButtonText: "Annuler",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "<?= base_url('/admin/ingredient/switch-active'); ?>",
+                    type: "POST",
+                    data: { 'id_ingredient': id },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Succès !',
+                                text: response.message,
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            refreshTable();
+                        } else {
+                            Swal.fire({
+                                title: 'Erreur !',
+                                text: response.message || 'Une erreur est survenue',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Erreur !',
+                            text: 'Erreur de communication avec le serveur',
+                            icon: 'error'
+                        });
+                    }
+                });
+            } else {
+                // Si annulé, on refresh pour remettre le switch dans son état initial
+                refreshTable();
+            }
+        });
+    }
 </script>

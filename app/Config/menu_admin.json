@@ -15,10 +15,10 @@
     "title": "Ingrédients",
     "icon": "<i class=\"nav-icon fas fa-clipboard-list\"></i>",
     "subs": {
-      "ingredient": {
-        "title": "liste des ingrédients",
+      "ingredient" : {
+        "title" : "Ingrédients",
         "url": "/admin/ingredient",
-        "icon": "<i class=\"nav-icon fas fa-clipboard-list\"></i>"
+        "icon" : "<i class=\"nav-icon fas fa-list\"></i>"
       },
       "category": {
         "title": "Catégories",
@@ -29,16 +29,6 @@
         "title": "Marques",
         "url": "/admin/brand",
         "icon": "<i class=\"nav-icon fas fa-font-awesome\"></i>"
-      },
-      "unit": {
-        "title": "unités",
-        "url": "/admin/unit",
-        "icon": "<i class=\"nav-icon fa-solid fa-ruler-vertical\"></i>"
-      },
-      "tag": {
-        "title": "Mot clés",
-        "url": "/admin/tag",
-        "icon": "<i class=\"nav-icon fa-solid fa-tags\"></i>"
       }
     }
   },

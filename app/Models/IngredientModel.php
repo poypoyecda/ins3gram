@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 use App\Traits\Select2Searchable;
 
 class IngredientModel extends Model
 {
     use Select2Searchable;
-    use DataTableTrait;
+
     protected $table            = 'ingredient';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -39,27 +38,8 @@ class IngredientModel extends Model
     ];
 
     // Configuration pour Select2Searchable
-    protected $select2SearchFields = ['name'];
+    protected $select2SearchFields = ['name', 'description'];
     protected $select2DisplayField = 'name';
-    protected $select2AdditionalFields = ['description','id_brand', 'id_categ'];
-
-    protected function getDataTableConfig(): array
-    {
-        return [
-            'searchable_fields' => [
-                'categ_ing.name',
-                'categ_ing.id',
-                'brand.name',
-                'brand.id',
-                'ingredient.name',
-            ],
-            'joins' => [
-                        ['table' => 'brand', 'type' => 'LEFT', 'condition' => 'brand.id = ingredient.id_brand'],
-                        ['table' => 'categ_ing', 'type' => 'INNER', 'condition' => 'categ_ing.id = ingredient.id_categ'],
-            ],
-            'select' => 'ingredient.*, brand.name as brandname, categ_ing.name as categname',
-            'with_deleted' => false
-        ];
-    }
+    protected $select2AdditionalFields = ['description'];
 
 }

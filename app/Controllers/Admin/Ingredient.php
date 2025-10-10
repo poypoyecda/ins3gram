@@ -7,12 +7,27 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Ingredient extends BaseController
 {
+    public function index(){
+        return $this->view('/admin/ingredient/index');
+    }
+    public function create(){
+        helper(['form']);
+        return $this->view('/admin/ingredient/form');
+    }
 
-    protected $breadcrumb = [['text' => 'Tableau de Bord','url' => '/admin/dashboard']];
-    public function index()
-    {
-        $this->addBreadcrumb('Ingredient', "");
-        return $this->view('admin/ingredient/index');
+    public function insert() {
+        $image = $this->request->getFiles();
+        $data = $this->request->getPost();
+        echo "<pre>";
+        $id_ingredient = Model('IngredientModel')->insert($data);
+        foreach($image['image'] as $img) {
+            print_r(upload_file($img,'ingredient',$data['name'],['entity_type' => 'ingredient',"entity_id" => $id_ingredient], true));
+        }
+        die();
+
+
+
+        die();
     }
     public function search()
     {
@@ -35,12 +50,5 @@ class Ingredient extends BaseController
 
         // Réponse JSON
         return $this->response->setJSON($result);
-    }
-    public function create() {
-        helper('form');
-        $this->addBreadcrumb('Ingredient', "/admin/ingredient");
-        $this->addBreadcrumb('Création d\'un ingrédient', "");
-        $tags = Model('IngredientModel')->findAll();
-        return $this->view('admin/ingredient/form');
     }
 }
