@@ -17,11 +17,16 @@ class Site extends BaseController
         return $this->view('templates/404', [], false);
     }
 
-    public function testPagination() {
-        $recipeModel = Model('RecipeModel');
-        // Test basique
-
-        var_dump($recipeModel->getAllRecipes()); // Génère les liens HTML
+    public function test() {
+        $email = service('email');
+        $email->setTo('jeremy.sabbah@gmail.com');
+        $email->setSubject('Test Email');
+        $email->setMessage('Ceci est un test.');
+        if ($email->send()) {
+            echo "E-mail envoyé avec succès !";
+        } else {
+            echo $email->printDebugger(['headers']);
+        }
     }
 
 }
