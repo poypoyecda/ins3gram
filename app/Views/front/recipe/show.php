@@ -13,18 +13,30 @@
     </div>
 </div>
 <div class="row">
-    <div class="col">
-        <div class="rating-stars" data-rating="0">
-            <i class="far fa-star" data-value="1"></i>
-            <i class="far fa-star" data-value="2"></i>
-            <i class="far fa-star" data-value="3"></i>
-            <i class="far fa-star" data-value="4"></i>
-            <i class="far fa-star" data-value="5"></i>
+    <div class="col text-center">
+        <div data-value="1" id="scoreOpinion">
+            <i data-value="1" class="fas fa-2xl fa-star"></i>
+            <i data-value="2" class="far fa-2xl fa-star"></i>
+            <i data-value="3" class="far fa-2xl fa-star"></i>
+            <i data-value="4" class="far fa-2xl fa-star"></i>
+            <i data-value="5" class="far fa-2xl fa-star"></i>
         </div>
     </div>
-    <div class="col">
-        <!--TODO: Coeur de favoris qui sauvegarde au clique, sinon swal2 qui propose un lien vers /sign-in  -->
+    <div class="col text-center" id="favorite" data-value="0" >
+        <?php if( ($session_user != null) && $session_user->hasFavorite($recipe['id']) ) :
+            $text_favorite = 'Supprimer de mes favoris';
+            $class_favorite = 'fas';
+        else :
+            $text_favorite = 'Ajouter à mes favoris';
+            $class_favorite = 'far';
+        endif; ?>
+        <div id="heart" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="<?= $text_favorite ?>" title="<?= $text_favorite ?>">
+            <i class="<?= $class_favorite ?> fa-heart fa-2xl text-danger"></i>
+        </div>
+    </div>
+    <div class="col text-center">
         <!--TODO: Liens de partage de la page vers les reseaux sociaux (facebook / twitter)  -->
+        <?= social_share_links(current_url(), $recipe['name'] . ' - Ins3gram'); ?>
     </div>
 </div>
 <div class="row">
@@ -72,6 +84,8 @@
 </div>
 <script>
     $(document).ready(function () {
+
+        /*
         var main = new Splide('#main-slider', {
             type       : 'fade',
             heightRatio: 0.5,
@@ -98,64 +112,118 @@
         main.sync(thumbnails);
         main.mount();
         thumbnails.mount();
+        */
 
-        // Système de notation par étoiles
-        const ratingContainer = $('.rating-stars');
-        let currentHoverRating = 0;
+        $('#scoreOpinion').on('mouseenter', '.fa-star', function(){
+            var opinion_score = $(this).data('value');
+            var current_score = $('#scoreOpinion').data('value');
 
-        // Fonction pour mettre à jour l'affichage des étoiles
-        function updateStars(rating) {
-            ratingContainer.find('.fa-star').each(function() {
-                const starValue = $(this).data('value');
-                if (starValue <= rating) {
-                    $(this).removeClass('fa-regular').addClass('fa-solid');
-                } else {
-                    $(this).removeClass('fa-solid').addClass('fa-regular');
+            // Ne met à jour les classes que si le score change
+            if (opinion_score !== current_score) {
+                $('#scoreOpinion').data('value', opinion_score);
+                $('.fa-star').each(function() {
+                    if ($(this).data('value') <= opinion_score) {
+                        $(this).removeClass('far').addClass('fas');
+                    } else {
+                        $(this).removeClass('fas').addClass('far');
+                    }
+                });
+            }
+        });
+        $('#scoreOpinion').on('click', function(){
+            <?php if ($session_user != null) : ?>
+                var score = $(this).data('value');
+                var name = $('h1').first().text();
+                Swal.fire({
+                    title: "Validation",
+                    text : "Êtes-vous sûr de vouloir mettre " + score + " à " + name + " ?",
+                    icon: "info",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Oui !",
+                    cancelButtonText: "Non !"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url : "<?= base_url('api/recipe/score'); ?>",
+                            type : "POST",
+                            data : {
+                                'score' : score,
+                                'id_recipe' : '<?= $recipe['id']; ?>',
+                                'id_user' : '<?= $session_user->id ?? ""; ?>',
+                            },
+                            success : function(response) {
+                                console.log(response);
+                            }
+                        })
+                    }
+                });
+            <?php else : ?>
+                swalConnexion();
+            <?php endif; ?>
+        });
+        $('#favorite').on('click', '#heart', function(){
+            <?php if ($session_user != null) : ?>
+                $.ajax({
+                    url : '<?= base_url('api/recipe/favorite'); ?>',
+                    type : 'POST',
+                    data : {
+                        id_user : '<?= $session_user->id ?? ""; ?>',
+                        id_recipe : '<?= $recipe['id']; ?>',
+                    },
+                    success : function(response) {
+                        const tooltip = bootstrap.Tooltip.getInstance('#heart');
+                        if(response.type == 'delete') {
+                            tooltip.setContent({ '.tooltip-inner': 'Ajouter à mes favoris' })
+                            $('#favorite .fa-heart').removeClass('fas').addClass('far');
+                        } else {
+                            tooltip.setContent({ '.tooltip-inner': 'Supprimer de mes favoris' })
+                            $('#favorite .fa-heart').removeClass('far').addClass('fas');
+                        }
+                    }
+                })
+            <?php else : ?>
+                swalConnexion();
+            <?php endif; ?>
+        });
+        function swalConnexion() {
+            Swal.fire({
+                title : "Vous n'êtes pas connecté(e) !",
+                text : "Veuillez vous connecter ou vous inscrire.",
+                icon : "warning",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "S'inscrire",
+                denyButtonText: 'Se connecter',
+                cancelButtonText: "Revenir à la recette",
+                confirmButtonColor: "var(--bs-primary)",
+                denyButtonColor: "var(--bs-success)",
+                cancelButtonColor: "var(--bs-secondary)",
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    //s'inscrire
+                    window.location.href = "<?= base_url('register'); ?>";
+                } else if (result.isDenied) {
+                    //se connecter
+                    window.location.href = "<?= base_url('sign-in'); ?>";
                 }
             });
         }
-
-        // Au survol du conteneur - détection de l'étoile survolée
-        ratingContainer.on('mousemove', function(e) {
-            const target = $(e.target).closest('.fa-star');
-            if (target.length) {
-                currentHoverRating = target.data('value');
-                updateStars(currentHoverRating);
-            }
-        });
-
-        // Quand on quitte la zone de notation, on revient à la note sauvegardée
-        ratingContainer.on('mouseleave', function() {
-            const savedRating = $(this).data('rating') || 0;
-            currentHoverRating = 0;
-            updateStars(savedRating);
-        });
-
-        // Au clic sur le conteneur, on valide la note en cours de survol
-        ratingContainer.on('click', function(e) {
-            console.log('Clic sur le conteneur:', currentHoverRating);
-            if (currentHoverRating > 0) {
-                <?php if(empty($session_user)): ?>
-                Swal.fire({
-                    title: 'Connexion requise',
-                    text: 'Vous devez être connecté pour noter cette recette',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Se connecter',
-                    cancelButtonText: 'Annuler'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '<?= base_url('/sign-in'); ?>';
-                    }
-                });
-                <?php else: ?>
-                ratingContainer.data('rating', currentHoverRating);
-                console.log('Note validée:', currentHoverRating);
-                <?php endif; ?>
-            }
-        });
     })
 </script>
 <style>
-
+    .fa-star {
+        color: var(--bs-warning);
+        cursor: pointer;
+    }
+    .fa-heart:hover {
+        scale: 1.1;
+        cursor: pointer;
+    }
+    #heart {
+        width: fit-content;
+        margin: auto;
+    }
 </style>

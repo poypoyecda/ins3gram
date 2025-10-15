@@ -19,7 +19,8 @@
                     <div class="card-header chewy text-center h1">
                         Connexion
                     </div>
-                    <form action="<?= base_url('auth/login'); ?>" method="POST">
+                    <?= form_open('auth/login') ?>
+                        <!--<input type="hidden" name="--><?php //= csrf_token_name(); ?><!--" value="--><?php //= csrf_hash(); ?><!--">-->
                         <div class="card-body">
                             <div class="row flex-column align-content-center">
                                 <div class="col-6">
@@ -40,7 +41,7 @@
                             <button type="submit" class="btn btn-primary">Se connecter</button>
                             </div>
                         </div>
-                    </form>
+                    <?= form_close() ?>
                 </div>
             </div>
         </div>
