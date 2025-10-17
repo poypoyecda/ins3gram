@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col">
         <div class="position-relative">
-            <?php if(isset($recipe['mea']['file_path'])) : ?>
-                <img src="<?= base_url($recipe['mea']['file_path']); ?>" class="img-fluid recipe-img-mea">
+            <?php if(isset($recipe['mea'])) : ?>
+                <img src="<?= $recipe['mea']->getUrl() ; ?>" class="img-fluid recipe-img-mea">
             <?php endif;?>
             <div class="position-absolute top-0 start-0 bg-black w-100 h-100 opacity-25"></div>
             <div class="position-absolute top-50 start-50 translate-middle text-white text-center">
@@ -55,8 +55,8 @@
                 <ul class="splide__list">
                     <?php foreach($recipe['images'] as $image) : ?>
                     <li class="splide__slide">
-                        <a href="<?= base_url($image['file_path']); ?>" data-lightbox="mainslider">
-                            <img class="img-fluid" src="<?= base_url($image['file_path']); ?>">
+                        <a href="<?= $image->getUrl(); ?>" data-lightbox="mainslider">
+                            <img class="img-fluid" src="<?= $image->getUrl(); ?>">
                         </a>
                     </li>
                     <?php endforeach; ?>
@@ -68,7 +68,7 @@
                 <ul class="splide__list">
                     <?php foreach($recipe['images'] as $image) : ?>
                     <li class="splide__slide">
-                        <img class="img-thumbnail rounded" src="<?= base_url($image['file_path']); ?>">
+                        <img class="img-thumbnail rounded" src="<?= $image->getUrl(); ?>">
                     </li>
                     <?php endforeach; ?>
                 </ul>
@@ -85,34 +85,34 @@
 <script>
     $(document).ready(function () {
 
-        /*
-        var main = new Splide('#main-slider', {
-            type       : 'fade',
-            heightRatio: 0.5,
-            pagination : false,
-            arrows     : false,
-            cover      : false, //désactiver "cover" pour éviter le crop
-        });
-        var thumbnails = new Splide('#thumbnail-slider', {
-            rewind       : true,
-            fixedWidth   : 80,
-            fixedHeight  : 80,
-            isNavigation : true,
-            gap          : 10,
-            focus        : 'center',
-            pagination   : false,
-            cover        : false,
-            breakpoints : {
-                640: {
-                    fixedWidth  : 60,
-                    fixedHeight : 60,
+        <?php if(isset($recipe['images']) && !empty($recipe['images'])) : ?>
+            var main = new Splide('#main-slider', {
+                type       : 'fade',
+                heightRatio: 0.5,
+                pagination : false,
+                arrows     : false,
+                cover      : false, //désactiver "cover" pour éviter le crop
+            });
+            var thumbnails = new Splide('#thumbnail-slider', {
+                rewind       : true,
+                fixedWidth   : 80,
+                fixedHeight  : 80,
+                isNavigation : true,
+                gap          : 10,
+                focus        : 'center',
+                pagination   : false,
+                cover        : false,
+                breakpoints : {
+                    640: {
+                        fixedWidth  : 60,
+                        fixedHeight : 60,
+                    },
                 },
-            },
-        });
-        main.sync(thumbnails);
-        main.mount();
-        thumbnails.mount();
-        */
+            });
+            main.sync(thumbnails);
+            main.mount();
+            thumbnails.mount();
+        <?php endif; ?>
 
         $('#scoreOpinion').on('mouseenter', '.fa-star', function(){
             var opinion_score = $(this).data('value');

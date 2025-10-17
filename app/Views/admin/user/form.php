@@ -13,12 +13,12 @@
             <?php
             // Ouverture du formulaire selon le cas : update ou create
             if(isset($user)):
-                echo form_open('admin/user/update', ['class' => 'needs-validation', 'novalidate' => true]); ?>
+                echo form_open_multipart('admin/user/update', ['class' => 'needs-validation', 'novalidate' => true]); ?>
                 <!-- Champ caché pour stocker l'ID de l'utilisateur lors de la modification -->
                 <input type="hidden" name="id" value="<?= $user->id ?>">
             <?php
             else:
-                echo form_open('admin/user/insert', ['class' => 'needs-validation', 'novalidate' => true]);
+                echo form_open_multipart('admin/user/insert', ['class' => 'needs-validation', 'novalidate' => true]);
             endif;
             ?>
             <div class="card-body">
@@ -158,6 +158,29 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="row">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 h-100 position-relative" id="avatar">
+                                    <?php if(isset($user) && $user->hasAvatar()): ?>
+                                        <div id="avatar-hover" class="rounded-circle h-100 w-100 position-absolute" style="background-color: rgba(0, 0, 0, 0.2); display:none">
+                                            <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                                                <i class="fas fa-trash-can fa-2xl text-danger"></i>
+                                            </div>
+                                        </div>
+                                        <img src="<?= isset($user) ? $user->getAvatarUrl() : base_url('assets/img/default-avatar.png') ?>"
+                                             alt="Avatar"
+                                             class="rounded-circle img-thumbnail" style="max-width: 100px; height: auto;">
+                                    <?php else: ?>
+                                        <p class="text-muted small">Aucun avatar</p>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <input type="file" name="avatar" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-between">
@@ -191,6 +214,58 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        var base_url = '<?= base_url() ?>';
+        $('#avatar').on('mouseenter', function(){
+            $('#avatar-hover').toggle();
+        });
+        $('#avatar').on('mouseleave', function(){
+            $('#avatar-hover').toggle();
+        });
+
+        $('#avatar-hover .fa-trash-can').on('click', function(){
+            Swal.fire({
+                title: "Supprimer l'avatar ? ",
+                text: "Il n'y aura pas de retour possible !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "var(--cui-primary)",
+                cancelButtonColor: "var(--cui-danger)",
+                confirmButtonText: "Oui, supprime !",
+                cancelButtonText: "Annuler"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url : base_url + "admin/user/delete-avatar",
+                        type : "POST",
+                        data : {
+                            'id_user' : '<?= isset($user) ? $user->id : '' ?>'
+                        },
+                        success: function(response) {
+                            if(response.success) {
+                                Swal.fire({
+                                    icon : 'success',
+                                    title : 'Avatar supprimé !'
+                                });
+                                $('#avatar').empty();
+                                $('#avatar').append('<p class="text-muted small">Aucun avatar</p>');
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Erreur',
+                                    text: response.message
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+            });
+        })
+    });
+
     // Ici, on ouvre une "fonction auto-exécutée".
     // Cela veut dire que ce bloc de code va s'exécuter tout seul dès que la page est chargée.
     (function() {
@@ -232,3 +307,8 @@
         });
     })();
 </script>
+<style>
+    .fa-trash-can {
+        cursor: pointer;
+    }
+</style>

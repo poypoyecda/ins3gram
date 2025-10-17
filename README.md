@@ -17,10 +17,10 @@ Ceci est un projet fait sous [CodeIgniter 4](https://www.codeigniter.com/user_gu
 ## Création de votre projet
 
 1. Créer sur GitHub.com dans vos répertoires privés un repo pour votre projet.
-2. Cloner ce repo sur votre ordinateur pour pouvoir travailler dessus.
-3. Cloner ensuite ce projet. Passez par Github Desktop et les boutons présent en haut sur Github.com
-4. Une fois le dossier cloné, ouvrez le et supprimer le dossier ```.git``` et ```.idea``` s'ils sont présents.
-5. Ouvrez le dossier de votre projet et celui de ce projet, couper/coller tout le contenu de ce projet dans le votre.
+   2. Cloner ce repo sur votre ordinateur pour pouvoir travailler dessus.
+   3. Cloner ensuite ce projet. Passez par Github Desktop et les boutons présent en haut sur Github.com
+   4. Une fois le dossier cloné, ouvrez le et supprimer le dossier ```.git``` et ```.idea``` s'ils sont présents.
+   5. Ouvrez le dossier de votre projet et celui de ce projet, couper/coller tout le contenu de ce projet dans le votre.
 
 ### Initialiser le projet
 
