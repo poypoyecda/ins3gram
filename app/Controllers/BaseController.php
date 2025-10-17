@@ -220,4 +220,5 @@ abstract class BaseController extends Controller
             'info' => $info,
         ];
     }
+
 }
