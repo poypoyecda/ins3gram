@@ -91,7 +91,7 @@ class User extends Entity
     public function hasFavorite(int $recipeId): bool
     {
         $fm = model('FavoriteModel');
-        return $fm->hasFavorite($this->attributes['id'], $recipeId);
+        return $fm->hasFavorite($recipeId,$this->attributes['id'] );
     }
     /**
      * Récupère l'avatar de l'utilisateur

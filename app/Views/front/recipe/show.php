@@ -29,7 +29,8 @@
         else :
             $text_favorite = 'Ajouter à mes favoris';
             $class_favorite = 'far';
-        endif; ?>
+        endif;
+        echo $text_favorite;?>
         <div id="heart" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="<?= $text_favorite ?>" title="<?= $text_favorite ?>">
             <i class="<?= $class_favorite ?> fa-heart fa-2xl text-danger"></i>
         </div>
