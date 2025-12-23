@@ -49,24 +49,7 @@ class Brand extends BaseController
         $data = $this->request->getPost();
         $id = $data['id'];
         unset($data['id']);
-        $image = $this->request->getFile('image');
-
         if ($bm->update($id, $data)) {
-            if ($image && $image->getError() !== UPLOAD_ERR_NO_FILE) {
-                $mediaData = [
-                    'entity_type' => 'brand',
-                    'entity_id'   => $id,
-                    'created_at'  => date('Y-m-d H:i:s'),
-                ];
-                $uploadResult = upload_file($image, 'brand', $image->getName(), $mediaData, false);
-                if (is_array($uploadResult) && isset($uploadResult['status']) && $uploadResult['status'] === 'error') {
-                    return $this->response->setJSON([
-                        'success' => false,
-                        'message' => 'Erreur lors de l\'upload de l\'image : ' . $uploadResult['message'],
-                    ]);
-                }
-            }
-
             return $this->response->setJSON([
                 'success' => true,
                 'message' => "La marque à été modifiée avec succés !",
