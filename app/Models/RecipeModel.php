@@ -21,28 +21,15 @@ class RecipeModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
-    protected $beforeInsert = ['setInsertValidationRules','validateAlcool'];
-    protected $beforeUpdate = ['setUpdateValidationRules','validateAlcool'];
+    protected $beforeInsert = ['validateAlcool'];
+    protected $beforeUpdate = ['validateAlcool'];
 
-    protected function setInsertValidationRules(array $data) {
-        $this->validationRules = [
-            'name'    => 'required|max_length[255]|is_unique[recipe.name]',
-            'alcool'  => 'permit_empty|in_list[0,1,on]',
-            'id_user' => 'permit_empty|integer',
-            'description' => 'permit_empty',
-        ];
-        return $data;
-    }
-    protected function setUpdateValidationRules(array $data) {
-        $id = $data['data']['id_recipe'] ?? null;
-        $this->validationRules = [
-            'name'    => "required|max_length[255]|is_unique[recipe.name,id,$id]",
-            'alcool'  => 'permit_empty|in_list[0,1,on]',
-            'id_user' => 'permit_empty|integer',
-            'description' => 'permit_empty',
-        ];
-        return $data;
-    }
+    protected $validationRules = [
+        'name'    => "required|max_length[255]|is_unique[recipe.name,id,{primaryKey}]",
+        'alcool'  => 'permit_empty|in_list[0,1,on]',
+        'id_user' => 'permit_empty|integer',
+        'description' => 'permit_empty',
+    ];
 
     protected $validationMessages = [
         'name' => [
@@ -173,7 +160,18 @@ class RecipeModel extends Model
     }
 
     protected function validateAlcool(array $data) {
-        $data['data']['alcool'] = isset($data['data']['alcool']) ? 1 : 0;
+        // Si alcool n'existe pas, mettre 0
+        if (!isset($data['data']['alcool'])) {
+            $data['data']['alcool'] = 0;
+            return $data;
+        }
+
+        // Si alcool existe, normaliser la valeur
+        // "on" (checkbox) ou 1 → 1
+        // 0, "", false, null → 0
+        $value = $data['data']['alcool'];
+        $data['data']['alcool'] = ($value === 'on' || $value == 1) ? 1 : 0;
+
         return $data;
     }
 
