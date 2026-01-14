@@ -121,7 +121,8 @@ class Filters extends BaseFilters
             // Retirer complètement csrf des globals
             unset($this->globals['before']['csrf']);
 
+            // Alternative : vider le tableau before si vous voulez tout désactiver
+            // $this->globals['before'] = [];
         }
     }
-
 }

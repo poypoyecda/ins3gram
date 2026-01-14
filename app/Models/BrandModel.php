@@ -13,7 +13,36 @@ class BrandModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name'];
+    protected $allowedFields    = ['name','slug'];
+    protected $beforeInsert = ['generateUniqueSlug'];
+    protected $beforeUpdate = ['generateUniqueSlug'];
+    protected function generateUniqueSlug(array $data)
+    {
+        if (!isset($data['data']['name'])) return $data;
+
+        $newName = $data['data']['name'];
+        $id = $data['data']['id'] ?? null;
+
+        if ($id) {
+            $old = $this->find($id);
+            if ($old && $old['name'] === $newName) return $data;
+        }
+
+        $slug = generateSlug($newName);
+        $all = $this->findAll();
+
+        $same = array_filter($all, function ($row) use ($slug, $id) {
+            if ($id && $row['id'] == $id) return false;
+            return $row['slug'] === $slug;
+        });
+
+        if (count($same) > 0) {
+            $slug .= '-' . (count($same) + 1);
+        }
+
+        $data['data']['slug'] = $slug;
+        return $data;
+    }
     protected $useTimestamps = false;
     protected $validationRules = [
         'name' => 'required|max_length[255]|is_unique[brand.name,id,{id}]',

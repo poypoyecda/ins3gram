@@ -28,58 +28,6 @@ final class RecipeModelTest extends CIUnitTestCase
     private int $tagTropicalId;
     private int $tagFacileId;
 
-    // ========================================
-    // HELPER METHODS
-    // ========================================
-
-    /**
-     * Crée un cocktail complet avec toutes les données de base
-     */
-    private function createCompleteCocktail(): int
-    {
-        $id_cocktail = $this->recipeModel->insert([
-            'name' => 'Mojito Classic',
-            'slug' => 'mojito-classic',
-            'alcool' => 1,
-            'id_user' => $this->testUserId,
-            'description' => 'Le célèbre cocktail cubain à base de rhum blanc, menthe fraîche, citron vert et eau gazeuse'
-        ]);
-        $quantities = [
-            ['id_ingredient' => 8, 'id_recipe' => $id_cocktail, 'id_unit' => 2, 'quantity' => 6], // Rhum Havana Club
-            ['id_ingredient' => 37, 'id_recipe' => $id_cocktail, 'id_unit' => 15, 'quantity' => 8], // Menthe fraîche
-            ['id_ingredient' => 37, 'id_recipe' => $id_cocktail, 'id_unit' => 14, 'quantity' => 1], // Lime
-            ['id_ingredient' => 39, 'id_recipe' => $id_cocktail, 'id_unit' => 8, 'quantity' => 2], // Sucre blanc
-            ['id_ingredient' => 42, 'id_recipe' => $id_cocktail, 'id_unit' => 22, 'quantity' => 1], // Eau gazeuse
-        ];
-        Model('App\Models\QuantityModel')->insertBatch($quantities);
-
-        $tagRecipes = [
-            ['id_recipe' => $id_cocktail, 'id_tag' => 1], // Cocktail classique
-            ['id_recipe' => $id_cocktail, 'id_tag' => 8], // Cocktail rafraîchissant
-            ['id_recipe' => $id_cocktail, 'id_tag' => 26], // Cubain
-            ['id_recipe' => $id_cocktail, 'id_tag' => 12], // Été
-            ['id_recipe' => $id_cocktail, 'id_tag' => 15], // Facile
-        ];
-        Model("App\Models\TagRecipeModel")->insertBatch($tagRecipes);
-        $steps = [
-            // Mojito
-            ['description' => 'Placer les feuilles de menthe au fond d\'un verre highball', 'order' => 1, 'id_recipe' => $id_cocktail],
-            ['description' => 'Ajouter le sucre et les quartiers de lime', 'order' => 2, 'id_recipe' => $id_cocktail],
-            ['description' => 'Piler délicatement pour libérer les arômes', 'order' => 3, 'id_recipe' => $id_cocktail],
-            ['description' => 'Remplir le verre de glace pilée', 'order' => 4, 'id_recipe' => $id_cocktail],
-            ['description' => 'Verser le rhum blanc', 'order' => 5, 'id_recipe' => $id_cocktail],
-            ['description' => 'Compléter avec l\'eau gazeuse', 'order' => 6, 'id_recipe' => $id_cocktail],
-            ['description' => 'Mélanger délicatement', 'order' => 7, 'id_recipe' => $id_cocktail],
-            ['description' => 'Décorer avec un brin de menthe', 'order' => 8, 'id_recipe' => $id_cocktail],
-        ];
-        Model('App\Models\StepModel')->insertBatch($steps);
-        $media = [
-            ['file_path' => 'uploads/2025/09/recipe/3/mojito-cocktail.jpg', 'entity_id' => $id_cocktail, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-        ];
-        $this->db->table('media')->insertBatch($media);
-        return $id_cocktail;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -551,5 +499,57 @@ final class RecipeModelTest extends CIUnitTestCase
         // Filtrer mocktails
         $nonAlcoholic = $this->recipeModel->getAllRecipes(['alcool' => 0]);
         $this->assertCount(2, $nonAlcoholic['data']);
+    }
+
+    // ========================================
+    // HELPER METHODS
+    // ========================================
+
+    /**
+     * Crée un cocktail complet avec toutes les données de base
+     */
+    private function createCompleteCocktail(): int
+    {
+        $id_cocktail = $this->recipeModel->insert([
+            'name' => 'Mojito Classic',
+            'slug' => 'mojito-classic',
+            'alcool' => 1,
+            'id_user' => $this->testUserId,
+            'description' => 'Le célèbre cocktail cubain à base de rhum blanc, menthe fraîche, citron vert et eau gazeuse'
+        ]);
+        $quantities = [
+            ['id_ingredient' => 8, 'id_recipe' => $id_cocktail, 'id_unit' => 2, 'quantity' => 6], // Rhum Havana Club
+            ['id_ingredient' => 37, 'id_recipe' => $id_cocktail, 'id_unit' => 15, 'quantity' => 8], // Menthe fraîche
+            ['id_ingredient' => 37, 'id_recipe' => $id_cocktail, 'id_unit' => 14, 'quantity' => 1], // Lime
+            ['id_ingredient' => 39, 'id_recipe' => $id_cocktail, 'id_unit' => 8, 'quantity' => 2], // Sucre blanc
+            ['id_ingredient' => 42, 'id_recipe' => $id_cocktail, 'id_unit' => 22, 'quantity' => 1], // Eau gazeuse
+        ];
+        Model('App\Models\QuantityModel')->insertBatch($quantities);
+
+        $tagRecipes = [
+            ['id_recipe' => $id_cocktail, 'id_tag' => 1], // Cocktail classique
+            ['id_recipe' => $id_cocktail, 'id_tag' => 8], // Cocktail rafraîchissant
+            ['id_recipe' => $id_cocktail, 'id_tag' => 26], // Cubain
+            ['id_recipe' => $id_cocktail, 'id_tag' => 12], // Été
+            ['id_recipe' => $id_cocktail, 'id_tag' => 15], // Facile
+        ];
+        Model("App\Models\TagRecipeModel")->insertBatch($tagRecipes);
+        $steps = [
+            // Mojito
+            ['description' => 'Placer les feuilles de menthe au fond d\'un verre highball', 'order' => 1, 'id_recipe' => $id_cocktail],
+            ['description' => 'Ajouter le sucre et les quartiers de lime', 'order' => 2, 'id_recipe' => $id_cocktail],
+            ['description' => 'Piler délicatement pour libérer les arômes', 'order' => 3, 'id_recipe' => $id_cocktail],
+            ['description' => 'Remplir le verre de glace pilée', 'order' => 4, 'id_recipe' => $id_cocktail],
+            ['description' => 'Verser le rhum blanc', 'order' => 5, 'id_recipe' => $id_cocktail],
+            ['description' => 'Compléter avec l\'eau gazeuse', 'order' => 6, 'id_recipe' => $id_cocktail],
+            ['description' => 'Mélanger délicatement', 'order' => 7, 'id_recipe' => $id_cocktail],
+            ['description' => 'Décorer avec un brin de menthe', 'order' => 8, 'id_recipe' => $id_cocktail],
+        ];
+        Model('App\Models\StepModel')->insertBatch($steps);
+        $media = [
+            ['file_path' => 'uploads/2025/09/recipe/3/mojito-cocktail.jpg', 'entity_id' => $id_cocktail, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+        ];
+        $this->db->table('media')->insertBatch($media);
+        return $id_cocktail;
     }
 }
