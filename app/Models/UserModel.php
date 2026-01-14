@@ -65,7 +65,7 @@ class UserModel extends Model
 
     public function findByEmail(string $email): ?User
     {
-        return $this->where('email', $email)->WithDeleted()->first();
+        return $this->where('email', $email)->withDeleted()->first();
     }
 
     /**

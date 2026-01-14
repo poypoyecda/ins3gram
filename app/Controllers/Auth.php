@@ -59,10 +59,14 @@ class Auth extends BaseController
     {
         $userId = session()->get('user_id');
 
-        session()->destroy();
-
         log_message('info', "User {$userId} logged out");
 
-        return redirect()->to('/sign-in')->with('success', 'Déconnexion réussie');
+        // ⭐ CORRECTION : Flash message AVANT destroy
+        session()->setFlashdata('success', 'Déconnexion réussie');
+
+        // Détruire la session
+        session()->destroy();
+
+        return redirect()->to('/sign-in');
     }
 }

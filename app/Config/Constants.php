@@ -77,11 +77,11 @@ defined('EXIT_USER_INPUT')     || define('EXIT_USER_INPUT', 7);     // invalid u
 defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database error
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
-
 /*
  | --------------------------------------------------------------------------
  | File and Directory Modes
  | --------------------------------------------------------------------------
+ |
  | These prefs are used when checking and setting modes when working
  | with the file system.  The defaults are fine on servers with proper
  | security, but you may wish (or even need) to change the values in
@@ -113,6 +113,7 @@ defined('EVENT_PRIORITY_HIGH')   || define('EVENT_PRIORITY_HIGH', 10);
  | System Path
  | --------------------------------------------------------------------------
  */
+
 defined('SYSTEMPATH') || define('SYSTEMPATH', realpath(ROOTPATH . 'vendor/codeigniter4/framework/system') . DIRECTORY_SEPARATOR);
 
 /*
@@ -120,6 +121,7 @@ defined('SYSTEMPATH') || define('SYSTEMPATH', realpath(ROOTPATH . 'vendor/codeig
  | Application Directory
  | --------------------------------------------------------------------------
  */
+
 defined('APPPATH') || define('APPPATH', realpath(ROOTPATH . 'app') . DIRECTORY_SEPARATOR);
 
 /*
@@ -127,6 +129,7 @@ defined('APPPATH') || define('APPPATH', realpath(ROOTPATH . 'app') . DIRECTORY_S
  | Writable Directory
  | --------------------------------------------------------------------------
  */
+
 defined('WRITEPATH') || define('WRITEPATH', realpath(ROOTPATH . 'writable') . DIRECTORY_SEPARATOR);
 
 /*
@@ -134,6 +137,7 @@ defined('WRITEPATH') || define('WRITEPATH', realpath(ROOTPATH . 'writable') . DI
  | Tests Directory (for phpunit)
  | --------------------------------------------------------------------------
  */
+
 defined('TESTPATH') || define('TESTPATH', realpath(ROOTPATH . 'tests') . DIRECTORY_SEPARATOR);
 
 /*
@@ -144,5 +148,5 @@ defined('TESTPATH') || define('TESTPATH', realpath(ROOTPATH . 'tests') . DIRECTO
  | The path to the "tests/_support" directory.
  | Allows for running the test suite with the --no-configuration option.
  */
-defined('SUPPORTPATH') || define('SUPPORTPATH', realpath(TESTPATH . '_support') . DIRECTORY_SEPARATOR);
 
+defined('SUPPORTPATH') || define('SUPPORTPATH', realpath(TESTPATH . '_support') . DIRECTORY_SEPARATOR);

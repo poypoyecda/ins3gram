@@ -1,46 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
-    bootstrap="vendor/codeigniter4/framework/system/Test/bootstrap.php"
-    backupGlobals="false"
-    beStrictAboutOutputDuringTests="true"
-    colors="true"
-    columns="max"
-    failOnRisky="true"
-    failOnWarning="true"
-    cacheDirectory="build/.phpunit.cache">
-    <coverage
-        includeUncoveredFiles="true"
-        pathCoverage="false"
-        ignoreDeprecatedCodeUnits="true"
-        disableCodeCoverageIgnore="true">
-        <report>
-            <clover outputFile="build/logs/clover.xml"/>
-            <html outputDirectory="build/logs/html"/>
-            <php outputFile="build/logs/coverage.serialized"/>
-            <text outputFile="php://stdout" showUncoveredFiles="false"/>
-        </report>
-    </coverage>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="vendor/codeigniter4/framework/system/Test/bootstrap.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true">
+
     <testsuites>
         <testsuite name="App">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
-    <logging>
-        <testdoxHtml outputFile="build/logs/testdox.html"/>
-        <testdoxText outputFile="build/logs/testdox.txt"/>
-        <junit outputFile="build/logs/logfile.xml"/>
-    </logging>
+
     <source>
         <include>
             <directory suffix=".php">./app</directory>
         </include>
         <exclude>
-            <directory suffix=".php">./app/Views</directory>
-            <file>./app/Config/Routes.php</file>
+            <directory>./app/Views</directory>
         </exclude>
     </source>
+
     <php>
         <!-- Environnement -->
         <env name="CI_ENVIRONMENT" value="testing"/>
@@ -59,8 +41,14 @@
         <env name="database.tests.username" value="root"/>
         <env name="database.tests.password" value="root"/>
         <env name="database.tests.DBDriver" value="MySQLi"/>
-        <env name="database.tests.DBPrefix" value="test_"/>
+        <env name="database.tests.DBPrefix" value=""/>
         <env name="database.tests.port" value="3306"/>
-    </php>
 
+        <!-- Session pour les tests -->
+        <env name="session.driver" value="CodeIgniter\Session\Handlers\ArrayHandler"/>
+        <env name="session.savePath" value=""/>
+
+        <!-- Désactiver CSRF pour les tests -->
+        <env name="security.csrfProtection" value=""/>
+    </php>
 </phpunit>

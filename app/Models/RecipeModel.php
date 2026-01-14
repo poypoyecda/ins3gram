@@ -25,7 +25,8 @@ class RecipeModel extends Model
     protected $beforeUpdate = ['validateAlcool'];
 
     protected $validationRules = [
-        'name'    => "required|max_length[255]|is_unique[recipe.name,id,{primaryKey}]",
+        'id'          => 'permit_empty|is_natural_no_zero',
+        'name'    => "required|max_length[255]|is_unique[recipe.name,id,{id}]",
         'alcool'  => 'permit_empty|in_list[0,1,on]',
         'id_user' => 'permit_empty|integer',
         'description' => 'permit_empty',

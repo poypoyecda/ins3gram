@@ -152,6 +152,7 @@ class Recipe extends BaseController
     {
         $data = $this->request->getPost();
         $id_recipe = $data['id_recipe'];
+        $data['id'] = $id_recipe;
         $rm = Model('RecipeModel');
         if ($rm->update($id_recipe, $data)) {
             $this->success('Recette modifiée avec succès !');

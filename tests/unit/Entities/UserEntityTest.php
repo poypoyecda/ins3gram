@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Entities;
+namespace tests\unit\Entities;
 
 use CodeIgniter\Test\CIUnitTestCase;
 use App\Entities\User;
@@ -46,4 +46,3 @@ final class UserEntityTest extends CIUnitTestCase
     }
 
 }
-
